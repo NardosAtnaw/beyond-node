@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple registration form</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="form__name">Scheduling Form</div>
+        <form id="MyForm" class="form__time" name="Forms">
+          <div class="time__container">
+            <div class="section">
+              <div class="box">1</div>
+              <span>Date &amp; Time</span>
+            </div>
+            <div class="date">
+              <label for="ageGroup">day</label>
+              <select name="dayWeek">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+            <!-- <div class="date">
+              <label for="date">Date</label> <input id="date" type="date" />
+            </div> -->
+
+            <div class="time">
+              <label for="time">Start Time</label>
+              <input id="time" type="time" name="sTime" />
+            </div>
+            <div class="time">
+              <label for="time">End Time</label>
+              <input id="time" type="time" name="eTime" />
+            </div>
+          </div>
+          <div class="contact__container">
+            <div class="section">
+              <div class="box">2</div>
+              <span>Class Information</span>
+            </div>
+            <div class="cname">
+              <label for="cname">Class Name</label>
+              <input
+                placeholder="e.g. Jazz"
+                id="cname"
+                type="text"
+                name="className"
+              />
+            </div>
+            <div class="cnum">
+              <label for="snum">Studio Number</label>
+              <input id="snum" type="text" name="studioNum" />
+            </div>
+            <div class="ageGroup">
+              <div class="timezone">
+                <label for="ageGroup">Age Group</label>
+                <select name="ageGroup">
+                  <option value="4-5">(4-5)</option>
+                  <option value="6-9">(6-9)</option>
+                  <option value="8+">(8+)</option>
+                  <option value="6-10">(6-10)</option>
+                  <option value="10-18">(10-18)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="">
+              <div class="section">
+                <div class="box">3</div>
+                <span>Additional Information</span>
+              </div>
+              <textarea
+                placeholder="e.g. Twice a week"
+                cols="50"
+                rows="5"
+                name="addInfo"
+              ></textarea>
+            </div>
+            <div class="form__confirmation">
+              <button type="submit">Add Program</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const form = document.getElementById("MyForm");
+
+      // Add 'submit' event handler
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        console.log(Forms.ageGroup.value);
+        console.log(Forms.className.value);
+        console.log(Forms.studioNum.value);
+        console.log(Forms.dayWeek.value);
+        console.log(Forms.sTime.value);
+        console.log(Forms.eTime.value);
+        console.log(Forms.addInfo.value);
+        console.log(Forms);
+
+        let schedulForm = {
+          className: Forms.className.value,
+          studioNum: Forms.studioNum.value,
+          ageGroup: Forms.ageGroup.value,
+          dayWeek: Forms.dayWeek.value,
+          startTime: Forms.sTime.value,
+          endTime: Forms.eTime.value,
+          addInfo: Forms.addInfo.value,
+        };
+
+        console.log(schedulForm);
+
+        await axios
+          .post("http://localhost:3001/schedule", {
+            form: schedulForm,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
+      });
+    </script>
+  </body>
+</html>
