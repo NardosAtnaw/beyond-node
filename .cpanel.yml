@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/beyondda/public_html/admin
+    - export DEPLOYPATH=/home/beyondda/admin.beyonddancers.com
     - /bin/cp -R * $DEPLOYPATH
