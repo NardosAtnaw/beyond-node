@@ -1,5 +1,6 @@
 const db = require("../util/database");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res) => {
   const userName = req.body.userName;
@@ -31,6 +32,45 @@ exports.signup = (req, res) => {
     });
 };
 
-exports.login = (req, res) => {
-  res.status(200).json({ message: "Logedin" });
-};
+
+  exports.login = (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+  
+    db.execute("SELECT * FROM users WHERE user_email='" + email + "'")
+      .then((result) => {
+        if (!result) {
+          return res.redirect("/login");
+        } else {
+          console.log( result[0][0])
+          bcrypt.compare(
+            password,
+            result[0][0].password,
+            function (err, verify) {
+              if (verify) {
+                const userJwt = jwt.sign(
+                  {
+                    userName: result[0][0].user_name,
+                    email: result[0][0].user_email,
+                   
+                  },
+                  "NARDOS_BEYOND"
+                );
+      
+                console.log(userJwt)
+                return res
+                  .status(200)
+                  .json({ message: true, jwt: userJwt });
+              } else {
+                res
+                  .status(200)
+                  .json({ message: false, result: email });
+              }
+            }
+          );
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  
+ 
