@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const config =  require('./config.js');
+const config = require("./config.js");
 
 const routes = require("./routes/route");
 
@@ -12,5 +12,5 @@ app.use(bodyParser.json());
 app.use(routes);
 
 app.listen(config.PORT, () => {
-    console.log("Server is running on ", config.PORT);
+  console.log("Server is running on ", config.PORT);
 });
